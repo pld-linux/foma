@@ -1,15 +1,14 @@
 Summary:	Multi-purpose finite-state toolkit
 Summary(pl.UTF-8):	Toolkit do tworzenia automatów skończonych różnego zastosowania
 Name:		foma
-# "alpha" version suffix is project state, not particular version state
-# - so there is no need to use %subver
-Version:	0.9.14alpha
+Version:	0.9.17
 Release:	1
 License:	GPL v2
 Group:		Development/Tools
-Source0:	http://dingo.sbs.arizona.edu/~mhulden/%{name}-%{version}.tar.gz
-# Source0-md5:	07169961fc48b728917f6e0af8f19787
-URL:		http://foma.sourceforge.net/
+#Source0Download: https://code.google.com/p/foma/downloads/list
+Source0:	https://foma.googlecode.com/files/%{name}-%{version}.tar.gz
+# Source0-md5:	17c40eb005d3c823231c24c77a8ec99d
+URL:		https://code.google.com/p/foma/
 BuildRequires:	readline-devel
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -52,7 +51,7 @@ Static Foma library.
 Statyczna biblioteka Foma.
 
 %prep
-%setup -q -n %{name}
+%setup -q
 
 %build
 %{__make} libfoma \
@@ -63,7 +62,7 @@ Statyczna biblioteka Foma.
 # workaround to avoid rebuilding library on install
 touch libfoma
 
-%{__make} foma \
+%{__make} foma flookup cgflookup \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} -D_GNU_SOURCE -std=c99 -fvisibility=hidden" \
 	LDFLAGS="%{rpmldflags} -lreadline -lz"
@@ -85,6 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc CHANGELOG README*
+%attr(755,root,root) %{_bindir}/cgflookup
+%attr(755,root,root) %{_bindir}/flookup
 %attr(755,root,root) %{_bindir}/foma
 %attr(755,root,root) %{_libdir}/libfoma.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libfoma.so.0
