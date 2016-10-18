@@ -2,7 +2,7 @@ Summary:	Multi-purpose finite-state toolkit
 Summary(pl.UTF-8):	Toolkit do tworzenia automatów skończonych różnego zastosowania
 Name:		foma
 Version:	0.9.17
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Development/Tools
 #Source0Download: https://code.google.com/p/foma/downloads/list
