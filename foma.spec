@@ -5,10 +5,10 @@ Version:	0.9.17
 Release:	2
 License:	GPL v2
 Group:		Development/Tools
-#Source0Download: https://code.google.com/p/foma/downloads/list
+#Source0Download: https://github.com/mhulden/foma
 Source0:	https://foma.googlecode.com/files/%{name}-%{version}.tar.gz
 # Source0-md5:	17c40eb005d3c823231c24c77a8ec99d
-URL:		https://code.google.com/p/foma/
+URL:		http://fomafst.github.io/
 BuildRequires:	readline-devel
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
