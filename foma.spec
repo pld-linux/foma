@@ -1,14 +1,18 @@
 Summary:	Multi-purpose finite-state toolkit
 Summary(pl.UTF-8):	Toolkit do tworzenia automatów skończonych różnego zastosowania
 Name:		foma
-Version:	0.9.17
-Release:	3
+Version:	0.10.0
+Release:	1
 License:	GPL v2
 Group:		Development/Tools
-#Source0Download: https://github.com/mhulden/foma
-Source0:	https://foma.googlecode.com/files/%{name}-%{version}.tar.gz
-# Source0-md5:	17c40eb005d3c823231c24c77a8ec99d
-URL:		http://fomafst.github.io/
+# mhulden/foma is main repo, but 0.10.0 tag exists only in AmbientLighter/foma (commit 180b6febf718af4b0223b6c7ac46f698a76e6a45 in mhulden/foma)
+#Source0Download: https://github.com/mhulden/foma/tags
+#Source0Download: https://github.com/AmbientLighter/foma/releases
+Source0:	https://github.com/AmbientLighter/foma/archive/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	18dc7c0a586117dc2b967ba3b4c3a237
+URL:		https://fomafst.github.io/
+BuildRequires:	bison
+BuildRequires:	flex
 BuildRequires:	readline-devel
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -54,15 +58,15 @@ Statyczna biblioteka Foma.
 %setup -q
 
 %build
-%{__make} libfoma \
+%{__make} -C foma libfoma \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} -D_GNU_SOURCE -std=c99 -fvisibility=hidden -fPIC" \
 	LDFLAGS="%{rpmldflags} -lreadline -lz"
 
 # workaround to avoid rebuilding library on install
-touch libfoma
+touch foma/libfoma
 
-%{__make} foma flookup cgflookup \
+%{__make} -C foma foma flookup cgflookup \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} -D_GNU_SOURCE -std=c99 -fvisibility=hidden" \
 	LDFLAGS="%{rpmldflags} -lreadline -lz"
@@ -71,7 +75,7 @@ touch libfoma
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_bindir}
 
-%{__make} install \
+%{__make} -C foma install \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	libdir=$RPM_BUILD_ROOT%{_libdir}
 
@@ -83,7 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGELOG README*
+%doc foma/{CHANGELOG,README*}
 %attr(755,root,root) %{_bindir}/cgflookup
 %attr(755,root,root) %{_bindir}/flookup
 %attr(755,root,root) %{_bindir}/foma
@@ -94,6 +98,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libfoma.so
 %{_includedir}/fomalib*.h
+%{_pkgconfigdir}/libfoma.pc
 
 %files static
 %defattr(644,root,root,755)
